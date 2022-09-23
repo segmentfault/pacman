@@ -2,7 +2,10 @@
   <img src="docs/logo.png" alt="drawing" width="120" align="center" />
 </center>
 
-# Pacman - Yet Another Toolkit to Build Golang Application Quickly
+# Pacman
+
+Pacman is a Golang library that abstracts the common libraries and patterns used in Golang application development.
+It provides a set of standard interfaces and implementations that can be used to build a Golang application quickly.
 
 [![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/segmentfault/pacmam/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
@@ -21,11 +24,14 @@
 
 Notice: This document also has [Simplified Chinese 中文版本](README_CN.md) Edition.
 
-## What is Pacman?
+## Why call it Pacman?
 
-[Pacman](https://wiki.archlinux.org/title/Pacman) is the package manager of Arch Linux. The goal of Pacman is to make it possible to easily manage packages.
+We inspired by two things:
 
-So the goal of this tool is similar, to make it easier to manage golang third-party libraries while building applications quickly.
+1. [Pacman](https://wiki.archlinux.org/title/Pacman) is the package manager of Arch Linux, which is a very popular Linux distribution.
+We want to make it easy to use third-party packages in Go projects, just like what pacman does in Arch Linux.
+2. Pacman is also a video game character, which is very popular in the 1980s.
+We want to make it easy to build a Golang application quickly, just like Pacman eats all the dots in the maze.
 
 ## Changelog
 
@@ -33,7 +39,7 @@ So the goal of this tool is similar, to make it easier to manage golang third-pa
 
 ## Design Philosophy
 
-Golang is very stable and powerful for server-side application development. But some general issues are confusing and blocking the progress of development, such as:
+Golang is very stable and robust for server-side application development. But some general issues are confusing and blocking the progress of development, such as:
 
 1. We need many third-party libraries to build the application. We need to choose a suitable one or multiple solutions at the same time, but do not want to be too dependent on them;
 2. The upgrade and replacement of third-party dependencies will cause failures, eg. some third-party libraries do not support major version updates.

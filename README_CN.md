@@ -2,7 +2,11 @@
   <img src="docs/logo.png" alt="drawing" width="120" align="center" />
 </center>
 
-# Pacman - 又一个快速搭建 Golang 应用的脚手架
+# Pacman
+
+Pacman 是一个 Golang 库，它抽象了 Golang 应用程序开发中常用的库和模式。
+它提供了一组标准的接口和实现，可以用来快速构建 Golang 应用程序。
+
 <!-- TOC depthfrom:2 orderedlist:false -->
 
 - [更新记录](#%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95)
@@ -12,7 +16,14 @@
 
 <!-- /TOC -->
 
-这是思否的 Golang 研发团队用于快速搭建的 Golang 应用的开发脚手架。
+## 为什么叫 Pacman?
+
+我们从两个方面得到灵感：
+
+1. [Pacman](https://wiki.archlinux.org/title/Pacman) 是 Arch Linux 的包管理器，它是一个非常流行的 Linux 发行版。
+我们希望能够像 Arch Linux 中的 pacman 一样，让第三方包在 Go 项目中使用起来更加简单。
+2. Pacman 也是一个 1980 年代非常流行的视频游戏角色。
+我们希望能够像 Pacman 吃掉迷宫中所有的点一样，让 Golang 应用的开发更加简单。
 
 ## 更新记录
 
