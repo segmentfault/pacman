@@ -1,8 +1,6 @@
-<center>
-  <img src="docs/logo.png" alt="drawing" width="120" align="center" />
-</center>
-
 # Pacman - Yet Another Toolkit to Build Golang Application Quickly
+
+![logo](./docs/pacman-logo.svg)
 
 [![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/segmentfault/pacmam/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)

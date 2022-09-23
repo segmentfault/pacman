@@ -1,8 +1,10 @@
-<center>
-  <img src="docs/logo.png" alt="drawing" width="120" align="center" />
-</center>
-
 # Pacman - 又一个快速搭建 Golang 应用的脚手架
+
+![logo](./docs/pacman-logo.svg)
+
+[![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/segmentfault/pacmam/blob/master/LICENSE)
+[![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
+
 <!-- TOC depthfrom:2 orderedlist:false -->
 
 - [更新记录](#%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95)
