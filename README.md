@@ -5,6 +5,10 @@
 [![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/segmentfault/pacmam/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 
+Pacman is a Golang library that abstracts the common libraries and patterns used in Golang application development. It provides a set of standard interfaces and implementations that can be used to build a Golang application quickly.
+
+Notice: This document also has [Simplified Chinese 中文版本](README_CN.md) Edition.
+
 <!-- TOC depthfrom:2 orderedlist:false -->
 
 - [Why call it Pacman?](#why-call-it-pacman)
@@ -16,8 +20,6 @@
 - [License](#license)
 
 <!-- /TOC -->
-
-Notice: This document also has [Simplified Chinese 中文版本](README_CN.md) Edition.
 
 ## Why call it Pacman?
 

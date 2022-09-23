@@ -5,6 +5,8 @@
 [![LICENSE](https://img.shields.io/badge/License-MIT-green)](https://github.com/segmentfault/pacmam/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 
+Pacman 是一个 Golang 库，它抽象了 Golang 应用程序开发中常用的库和模式。它提供了一组标准的接口和实现，可以用来快速构建 Golang 应用程序。
+
 <!-- TOC depthfrom:2 orderedlist:false -->
 
 - [为什么叫 Pacman?](#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AB-pacman)
