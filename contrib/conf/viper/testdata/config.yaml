@@ -1,0 +1,11 @@
+Base:
+  WebPort: "8080"
+
+Logger:
+  Level: "debug"
+
+Database:
+  - Connection: "root@root.localhost"
+    MaxIdleConns: 1
+  - Connection: "root2@root2.localhost"
+    MaxIdleConns: 2
