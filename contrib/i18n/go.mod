@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/nicksnyder/go-i18n/v2 v2.2.0
-	github.com/segmentfault/pacman v0.0.10
+	github.com/segmentfault/pacman v1.0.0
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/text v0.3.7
 	gopkg.in/yaml.v3 v3.0.1

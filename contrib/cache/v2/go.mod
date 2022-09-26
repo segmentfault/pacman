@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/Code-Hex/go-generics-cache v1.1.0
-	github.com/segmentfault/pacman v0.0.0-00010101000000-000000000000
+	github.com/segmentfault/pacman v1.0.0
 	github.com/stretchr/testify v1.8.0
 )
 

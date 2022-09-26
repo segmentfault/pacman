@@ -6,9 +6,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/segmentfault/pacman/server"
 )
 
 const DefaultShutdownTimeout = time.Minute
+
+var _ server.Server = (*Server)(nil)
 
 // Server gin implement http server
 type Server struct {
@@ -20,7 +23,7 @@ type Options func(*Server)
 
 // NewServer creates a new server instance with default settings
 func NewServer(e *gin.Engine, addr string, options ...Options) *Server {
-	server := Server{
+	ser := Server{
 		ShutdownTimeout: DefaultShutdownTimeout,
 		srv: &http.Server{
 			Addr:    addr,
@@ -29,10 +32,10 @@ func NewServer(e *gin.Engine, addr string, options ...Options) *Server {
 	}
 
 	for _, option := range options {
-		option(&server)
+		option(&ser)
 	}
 
-	return &server
+	return &ser
 }
 
 // WithGracefulShutdownDuration duration of graceful shutdown.

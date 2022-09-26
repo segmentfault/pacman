@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
-	github.com/segmentfault/pacman v0.0.10
+	github.com/segmentfault/pacman v1.0.0
 	go.uber.org/zap v1.21.0
 )
 

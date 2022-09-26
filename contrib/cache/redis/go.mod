@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/stretchr/testify v1.8.0
+	github.com/segmentfault/pacman v1.0.0
 )
 
 require (
@@ -14,3 +15,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/segmentfault/pacman => ../../../

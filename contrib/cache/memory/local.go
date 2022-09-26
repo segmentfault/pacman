@@ -7,7 +7,10 @@ import (
 	"time"
 
 	goCache "github.com/patrickmn/go-cache"
+	"github.com/segmentfault/pacman/cache"
 )
+
+var _ cache.Cache = (*Cache)(nil)
 
 // Cache basic memory cache
 type Cache struct {

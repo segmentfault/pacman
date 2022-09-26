@@ -3,7 +3,7 @@ module github.com/segmentfault/pacman/contrib/conf/viper
 go 1.18
 
 require (
-	github.com/segmentfault/pacman v0.0.10
+	github.com/segmentfault/pacman v1.0.0
 	github.com/spf13/viper v1.13.0
 	github.com/stretchr/testify v1.8.0
 )

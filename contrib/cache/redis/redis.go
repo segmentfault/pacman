@@ -5,7 +5,10 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/segmentfault/pacman/cache"
 )
+
+var _ cache.Cache = (*Cache)(nil)
 
 // Cache redis cache
 type Cache struct {
