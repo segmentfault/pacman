@@ -77,6 +77,10 @@ func NewTranslator(bundleDir string) (i18n.Translator, error) {
 		if file.IsDir() {
 			continue
 		}
+		// ignore non-YAML file
+		if filepath.Ext(file.Name()) != ".yaml" {
+			continue
+		}
 
 		// read the resource from single entry file
 		buf, err := os.ReadFile(filepath.Join(bundleDir, file.Name()))
