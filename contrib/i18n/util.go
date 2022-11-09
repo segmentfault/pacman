@@ -2,10 +2,11 @@ package i18n
 
 import (
 	"encoding/json"
+
 	"sigs.k8s.io/yaml"
 )
 
-// convert yaml bundle to json jsonData mapping
+// convert yaml Bundle to json jsonData mapping
 func yamlToJson(buf []byte) (any, error) {
 	j, err := yaml.YAMLToJSON(buf)
 	if err != nil {

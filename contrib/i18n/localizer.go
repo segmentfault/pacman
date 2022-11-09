@@ -15,8 +15,18 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// trans global translation
-var trans *Translator
+// GlobalTrans global translation
+var (
+	GlobalTrans = &Translator{
+		localizes: make(map[i18n.Language]*goI18n.Localizer),
+		jsonData:  make(map[i18n.Language]any),
+	}
+	Bundle = goI18n.NewBundle(language.English)
+)
+
+func init() {
+	Bundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
+}
 
 // Translator save the language type with localizer mapping
 type Translator struct {
@@ -46,7 +56,30 @@ func (tr *Translator) Tr(la i18n.Language, key string) string {
 	return translation
 }
 
-// NewTranslator new translator from bundle/resource directory
+// AddTranslator add translator to global translations
+// translation is content
+// language is language file name like en_US.yaml
+func AddTranslator(translation []byte, language string) (err error) {
+	// the default localizes format is yaml
+	_, err = Bundle.ParseMessageFileBytes(translation, language)
+	if err != nil {
+		return err
+	}
+
+	languageName := strings.TrimSuffix(language, filepath.Ext(language))
+
+	GlobalTrans.localizes[i18n.Language(languageName)] = goI18n.NewLocalizer(Bundle, languageName)
+
+	// convert localizes language format into json
+	j, err := yamlToJson(translation)
+	if err != nil {
+		return err
+	}
+	GlobalTrans.jsonData[i18n.Language(languageName)] = j
+	return
+}
+
+// NewTranslator new translator from Bundle/resource directory
 // TODO: singleton and multi-thread safe initialization
 func NewTranslator(bundleDir string) (i18n.Translator, error) {
 	stat, err := os.Stat(bundleDir)
@@ -62,16 +95,7 @@ func NewTranslator(bundleDir string) (i18n.Translator, error) {
 		return nil, err
 	}
 
-	trans = &Translator{
-		localizes: make(map[i18n.Language]*goI18n.Localizer),
-		jsonData:  make(map[i18n.Language]any),
-	}
-
-	// set default language is english
-	bundle := goI18n.NewBundle(language.English)
-	bundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
-
-	// read the bundle resources file from entries
+	// read the Bundle resources file from entries
 	for _, file := range entries {
 		// ignore directory
 		if file.IsDir() {
@@ -89,12 +113,13 @@ func NewTranslator(bundleDir string) (i18n.Translator, error) {
 		}
 
 		// the default localizes format is yaml
-		bundle.MustParseMessageFileBytes(buf, file.Name())
+		if _, err := Bundle.ParseMessageFileBytes(buf, file.Name()); err != nil {
+			return nil, fmt.Errorf("parse language message file [%s] failed: %s", file.Name(), err)
+		}
 
-		// TODO: print the log message
 		languageName := strings.TrimSuffix(file.Name(), filepath.Ext(file.Name()))
 
-		trans.localizes[i18n.Language(languageName)] = goI18n.NewLocalizer(bundle, languageName)
+		GlobalTrans.localizes[i18n.Language(languageName)] = goI18n.NewLocalizer(Bundle, languageName)
 
 		// convert localizes language format into json
 		j, err := yamlToJson(buf)
@@ -102,8 +127,7 @@ func NewTranslator(bundleDir string) (i18n.Translator, error) {
 			return nil, err
 		}
 
-		trans.jsonData[i18n.Language(languageName)] = j
+		GlobalTrans.jsonData[i18n.Language(languageName)] = j
 	}
-
-	return trans, nil
+	return GlobalTrans, nil
 }
