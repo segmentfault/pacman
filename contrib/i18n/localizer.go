@@ -7,10 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/segmentfault/pacman/i18n"
-	"github.com/segmentfault/pacman/log"
-
 	goI18n "github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/segmentfault/pacman/i18n"
 	"golang.org/x/text/language"
 	"gopkg.in/yaml.v3"
 )
@@ -49,7 +47,6 @@ func (tr *Translator) Tr(la i18n.Language, key string) string {
 
 	translation, err := l.Localize(&goI18n.LocalizeConfig{MessageID: key})
 	if err != nil {
-		log.Warn(err)
 		return key
 	}
 
