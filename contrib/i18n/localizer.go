@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	goI18n "github.com/nicksnyder/go-i18n/v2/i18n"
+	goI18n "github.com/LinkinStars/go-i18n/v2/i18n"
 	"github.com/segmentfault/pacman/i18n"
 	"golang.org/x/text/language"
 	"gopkg.in/yaml.v3"
@@ -47,7 +47,11 @@ func (tr *Translator) Tr(la i18n.Language, key string) string {
 
 	translation, err := l.Localize(&goI18n.LocalizeConfig{MessageID: key})
 	if err != nil {
-		return key
+		if _, tmpl, err := l.GetMessageTemplate(key, nil); err != nil {
+			return key
+		} else {
+			return tmpl.Other
+		}
 	}
 
 	return translation

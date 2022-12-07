@@ -13,6 +13,8 @@ func TestNewTranslator(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, translator.Tr(i18n.LanguageChinese, "base.success"), "成功")
 	assert.Equal(t, translator.Tr(i18n.LanguageEnglish, "base.success"), "success")
+	assert.Equal(t, translator.Tr(i18n.LanguageChinese, "base.test"), "{{ bad_value }} original value")
+	assert.Equal(t, translator.Tr(i18n.LanguageChinese, "base.not_found"), "base.not_found")
 }
 
 func TestAddTranslator(t *testing.T) {

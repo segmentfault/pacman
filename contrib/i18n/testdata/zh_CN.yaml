@@ -1,3 +1,5 @@
 base:
   success:
     other: "成功"
+  test:
+    other: "{{ bad_value }} original value"
