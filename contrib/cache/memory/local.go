@@ -77,3 +77,9 @@ func (s *Cache) Del(ctx context.Context, Key string) error {
 	s.local.Delete(Key)
 	return nil
 }
+
+// Flush deletes all items from cache
+func (s *Cache) Flush(ctx context.Context) error {
+	s.local.Flush()
+	return nil
+}

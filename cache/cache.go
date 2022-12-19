@@ -12,4 +12,5 @@ type Cache interface {
 	GetInt64(ctx context.Context, key string) (int64, error)
 	SetInt64(ctx context.Context, key string, value int64, ttl time.Duration) error
 	Del(ctx context.Context, key string) error
+	Flush(ctx context.Context) error
 }

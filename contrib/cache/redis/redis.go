@@ -49,3 +49,9 @@ func (r *Cache) SetInt64(ctx context.Context, key string, value int64, ttl time.
 func (r *Cache) Del(ctx context.Context, key string) error {
 	return r.Client.Del(ctx, key).Err()
 }
+
+// Flush delete all cache entries
+func (r *Cache) Flush(ctx context.Context) error {
+	r.Client.FlushAll(ctx)
+	return nil
+}
