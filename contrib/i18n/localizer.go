@@ -40,12 +40,17 @@ func (tr *Translator) Dump(la i18n.Language) ([]byte, error) {
 // Tr to Translate from specified language and string
 // TODO: improve multi-threading performance
 func (tr *Translator) Tr(la i18n.Language, key string) string {
+	return tr.TrWithData(la, key, nil)
+}
+
+// TrWithData to Translate from specified language and string
+func (tr *Translator) TrWithData(la i18n.Language, key string, templateData any) string {
 	l, ok := tr.localizes[la]
 	if !ok {
 		l = tr.localizes[i18n.DefaultLanguage]
 	}
 
-	translation, err := l.Localize(&goI18n.LocalizeConfig{MessageID: key})
+	translation, err := l.Localize(&goI18n.LocalizeConfig{MessageID: key, TemplateData: templateData})
 	if err != nil {
 		if _, tmpl, err := l.GetMessageTemplate(key, nil); err != nil {
 			return key

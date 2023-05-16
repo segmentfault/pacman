@@ -31,6 +31,7 @@ func (t Language) Abbr() string {
 }
 
 type Translator interface {
-	Tr(Language, string) string
-	Dump(Language) ([]byte, error)
+	Tr(lang Language, key string) string
+	TrWithData(lang Language, key string, templateData any) string
+	Dump(lang Language) ([]byte, error)
 }
