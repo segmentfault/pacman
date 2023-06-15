@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 
@@ -38,13 +39,6 @@ func NewServer(e *gin.Engine, addr string, options ...Options) *Server {
 	return &ser
 }
 
-// WithGracefulShutdownDuration duration of graceful shutdown.
-//
-// Deprecated: this function is deprecated, because it's name to long, replace it with `WithShutdownTimeout`
-func WithGracefulShutdownDuration(gracefulShutdownDuration time.Duration) Options {
-	return WithShutdownTimeout(gracefulShutdownDuration)
-}
-
 // WithShutdownTimeout duration of graceful shutdown
 func WithShutdownTimeout(duration time.Duration) Options {
 	return func(server *Server) {
@@ -53,21 +47,17 @@ func WithShutdownTimeout(duration time.Duration) Options {
 }
 
 // Start to start the server and wait for it to listen on the given address
-func (h *Server) Start() (err error) {
-	return h.srv.ListenAndServe()
-}
-
-// Stop stops the server and close with graceful shutdown duration
-//
-// Deprecated: use shutdown instead.
-func (h *Server) Stop() error {
-	return h.Shutdown()
+func (s *Server) Start() (err error) {
+	err = s.srv.ListenAndServe()
+	if !errors.Is(err, http.ErrServerClosed) {
+		return err
+	}
+	return nil
 }
 
 // Shutdown shuts down the server and close with graceful shutdown duration
-func (h *Server) Shutdown() error {
-	ctx, cancel := context.WithTimeout(context.Background(), h.ShutdownTimeout)
+func (s *Server) Shutdown() error {
+	ctx, cancel := context.WithTimeout(context.Background(), s.ShutdownTimeout)
 	defer cancel()
-
-	return h.srv.Shutdown(ctx)
+	return s.srv.Shutdown(ctx)
 }

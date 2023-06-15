@@ -1,10 +1,12 @@
 package pacman
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/hex"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 
 	"github.com/segmentfault/pacman/log"
@@ -78,33 +80,48 @@ func WithSignals(signals []os.Signal) func(application *Application) {
 }
 
 // Run application run
-func (app *Application) Run() error {
+func (app *Application) Run(ctx context.Context) error {
 	if len(app.servers) == 0 {
 		return nil
 	}
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, app.signals...)
+	errCh := make(chan error, 1)
 
 	for _, s := range app.servers {
 		go func(srv server.Server) {
 			if err := srv.Start(); err != nil {
 				log.Errorf("failed to start server, err: %s", err)
+				errCh <- err
 			}
 		}(s)
 	}
 
-	quit := make(chan os.Signal, 8)
-	signal.Notify(quit, app.signals...)
-	<-quit
-	return nil
+	select {
+	case err := <-errCh:
+		_ = app.Stop()
+		return err
+	case <-ctx.Done():
+		return app.Stop()
+	case <-quit:
+		return app.Stop()
+	}
 }
 
 // Stop application stop
 func (app *Application) Stop() error {
+	wg := sync.WaitGroup{}
 	for _, s := range app.servers {
-		go func(ser server.Server) {
-			if err := ser.Stop(); err != nil {
+		wg.Add(1)
+		go func(srv server.Server) {
+			defer wg.Done()
+			if err := srv.Shutdown(); err != nil {
 				log.Errorf("failed to stop server, err: %s", err)
 			}
 		}(s)
 	}
+	// wait all server graceful shutdown
+	wg.Wait()
 	return nil
 }
