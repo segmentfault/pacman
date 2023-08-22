@@ -26,8 +26,15 @@ func NewCache(conn, username, password string) *Cache {
 }
 
 // GetString get string value by key
-func (r *Cache) GetString(ctx context.Context, key string) (string, error) {
-	return r.Client.Get(ctx, key).Result()
+func (r *Cache) GetString(ctx context.Context, key string) (data string, exist bool, err error) {
+	data, err = r.Client.Get(ctx, key).Result()
+	if err == redis.Nil {
+		return "", false, nil
+	}
+	if err != nil {
+		return "", false, err
+	}
+	return data, true, err
 }
 
 // SetString set string value with key and ttl
@@ -36,13 +43,30 @@ func (r *Cache) SetString(ctx context.Context, key, value string, ttl time.Durat
 }
 
 // GetInt64 get int64 value by key
-func (r *Cache) GetInt64(ctx context.Context, key string) (int64, error) {
-	return r.Client.Get(ctx, key).Int64()
+func (r *Cache) GetInt64(ctx context.Context, key string) (data int64, exist bool, err error) {
+	data, err = r.Client.Get(ctx, key).Int64()
+	if err == redis.Nil {
+		return 0, false, nil
+	}
+	if err != nil {
+		return 0, false, err
+	}
+	return data, true, nil
 }
 
 // SetInt64 set int64 value with key and ttl
 func (r *Cache) SetInt64(ctx context.Context, key string, value int64, ttl time.Duration) error {
 	return r.Client.Set(ctx, key, value, ttl).Err()
+}
+
+// Increase key by value
+func (r *Cache) Increase(ctx context.Context, key string, value int64) (data int64, err error) {
+	return r.Client.IncrBy(ctx, key, value).Result()
+}
+
+// Decrease key by value
+func (r *Cache) Decrease(ctx context.Context, key string, value int64) (data int64, err error) {
+	return r.Client.DecrBy(ctx, key, value).Result()
 }
 
 // Del delete key from cache

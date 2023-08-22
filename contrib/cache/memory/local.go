@@ -3,7 +3,6 @@ package memory
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"time"
 
 	goCache "github.com/patrickmn/go-cache"
@@ -33,53 +32,54 @@ func Load(memCache *Cache, filePath string) error {
 }
 
 // GetString get string value by key
-func (s *Cache) GetString(ctx context.Context, key string) (string, error) {
-	value, has := s.local.Get(key)
+func (c *Cache) GetString(ctx context.Context, key string) (data string, exist bool, err error) {
+	value, has := c.local.Get(key)
 	if !has {
-		return "", fmt.Errorf("information does not exist")
+		return "", false, nil
 	}
-	v, ok := value.(string)
-	if !ok {
-		return "", fmt.Errorf("information abnormality")
-	}
-	return v, nil
+	data, _ = value.(string)
+	return data, true, nil
 }
 
 // SetString set string value with key and ttl
-func (s *Cache) SetString(ctx context.Context, key, value string, ttl time.Duration) error {
-	s.local.Set(key, value, ttl)
+func (c *Cache) SetString(ctx context.Context, key, value string, ttl time.Duration) error {
+	c.local.Set(key, value, ttl)
 	return nil
 }
 
 // GetInt64 get int64 value by key
-func (s *Cache) GetInt64(ctx context.Context, key string) (int64, error) {
-	value, has := s.local.Get(key)
+func (c *Cache) GetInt64(ctx context.Context, key string) (data int64, exist bool, err error) {
+	value, has := c.local.Get(key)
 	if !has {
-		return 0, fmt.Errorf("information does not exist")
+		return 0, false, nil
 	}
-	v, ok := value.(string)
-	if !ok {
-		return 0, fmt.Errorf("information abnormality")
-	}
-	num, _ := strconv.ParseInt(v, 10, 64)
-	return num, nil
+	data, _ = value.(int64)
+	return data, true, nil
 }
 
 // SetInt64 set int64 value with key and ttl
-func (s *Cache) SetInt64(ctx context.Context, key string, value int64, ttl time.Duration) error {
+func (c *Cache) SetInt64(ctx context.Context, key string, value int64, ttl time.Duration) error {
 	str := fmt.Sprintf("%d", value)
-	s.local.Set(key, str, ttl)
+	c.local.Set(key, str, ttl)
 	return nil
 }
 
+func (c *Cache) Increase(ctx context.Context, key string, value int64) (data int64, err error) {
+	return c.local.IncrementInt64(key, value)
+}
+
+func (c *Cache) Decrease(ctx context.Context, key string, value int64) (data int64, err error) {
+	return c.local.DecrementInt64(key, value)
+}
+
 // Del delete key from cache
-func (s *Cache) Del(ctx context.Context, Key string) error {
-	s.local.Delete(Key)
+func (c *Cache) Del(ctx context.Context, Key string) error {
+	c.local.Delete(Key)
 	return nil
 }
 
 // Flush deletes all items from cache
-func (s *Cache) Flush(ctx context.Context) error {
-	s.local.Flush()
+func (c *Cache) Flush(ctx context.Context) error {
+	c.local.Flush()
 	return nil
 }
