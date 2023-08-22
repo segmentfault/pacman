@@ -2,7 +2,6 @@ package memory
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	goCache "github.com/patrickmn/go-cache"
@@ -59,8 +58,7 @@ func (c *Cache) GetInt64(ctx context.Context, key string) (data int64, exist boo
 
 // SetInt64 set int64 value with key and ttl
 func (c *Cache) SetInt64(ctx context.Context, key string, value int64, ttl time.Duration) error {
-	str := fmt.Sprintf("%d", value)
-	c.local.Set(key, str, ttl)
+	c.local.Set(key, value, ttl)
 	return nil
 }
 
